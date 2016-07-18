@@ -11,6 +11,7 @@ var gulp = require('gulp'),
   rigger = require('gulp-rigger'),
   base_path = require('path'),
   cssmin = require('gulp-minify-css'),
+  plumber = require('gulp-plumber'),
   imagemin = require('gulp-imagemin'),
   pngquant = require('imagemin-pngquant'),
   browserSync = require('browser-sync'),
@@ -45,6 +46,7 @@ var gulp = require('gulp'),
 
   gulp.task('html:public', function () {
     gulp.src(path.src.jade)
+    .pipe(plumber())
     .pipe(jade({
       pretty: true,
       basedir: base_path.resolve()
@@ -55,6 +57,7 @@ var gulp = require('gulp'),
 
   gulp.task('js:public', function () {
   gulp.src(path.src.js)
+    .pipe(plumber())
     .pipe(rigger())
     .pipe(sourcemaps.init())
     .pipe(uglify())
@@ -65,6 +68,7 @@ var gulp = require('gulp'),
 
   gulp.task('css:public', function () {
   gulp.src(path.src.scss)
+  .pipe(plumber())
   .pipe(addsrc.prepend('app/app.scss'))
   .pipe(concat('styles.scss'))
   .pipe(sourcemaps.init())
